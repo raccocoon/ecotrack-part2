@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EcoTrack | Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-emerald-50 flex items-center justify-center min-h-screen">
+
+  <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-6 text-emerald-600">
+      Create Account
+    </h2>
+
+    <form id="registerForm" class="space-y-4">
+
+      <div>
+        <label class="block text-sm font-medium">Full Name</label>
+        <input
+          type="text"
+          id="fullName"
+          required
+          class="w-full mt-1 px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-emerald-300"
+        >
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Email</label>
+        <input
+          type="email"
+          id="email"
+          required
+          class="w-full mt-1 px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-emerald-300"
+        >
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium">Password</label>
+        <input
+          type="password"
+          id="password"
+          minlength="6"
+          required
+          class="w-full mt-1 px-3 py-2 border rounded focus:outline-none focus:ring focus:ring-emerald-300"
+        >
+        <p class="text-xs text-gray-500 mt-1">
+          Minimum 6 characters
+        </p>
+      </div>
+
+      <div id="errorMsg" class="text-red-500 text-sm hidden"></div>
+
+      <button
+        type="submit"
+        class="w-full bg-emerald-600 text-white py-2 rounded hover:bg-emerald-700"
+      >
+        Register
+      </button>
+
+    </form>
+
+    <p class="text-center text-sm mt-4">
+      Already have an account?
+      <a href="login.html" class="text-emerald-600 hover:underline">
+        Login
+      </a>
+    </p>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      const errorMsg = document.getElementById("errorMsg");
+
+      if (password.length < 6) {
+        errorMsg.textContent = "Password must be at least 6 characters.";
+        errorMsg.classList.remove("hidden");
+        return;
+      }
+
+      const users = JSON.parse(localStorage.getItem("users")) || [];
+
+      const emailExists = users.some(user => user.email === email);
+      if (emailExists) {
+        errorMsg.textContent = "Email already registered.";
+        errorMsg.classList.remove("hidden");
+        return;
+      }
+
+      users.push({
+        name,
+        email,
+        password,
+        role: "member"
+      });
+
+      localStorage.setItem("users", JSON.stringify(users));
+
+      alert("Registration successful. Please login.");
+      window.location.href = "login.html";
+    });
+  </script>
+
+</body>
+</html>
