@@ -106,5 +106,21 @@
     </div>
 </main>
 
+<script>
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    if (email.value.trim() === "" || password.value.trim() === "") {
+        alert("Please enter both email and password");
+        return;
+    }
+
+    alert("Login validation passed (backend coming next)");
+});
+</script>
+
 </body>
 </html>

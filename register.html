@@ -67,32 +67,50 @@
 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">First Name</label>
+                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">
+                            First Name
+                        </label>
+
                         <input id="firstName" type="text" required
                                class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200
                                       focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition">
+                            
+                        <p id="firstNameError" class="text-sm text-red-500 mt-1 hidden"></p>
                     </div>
 
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">Last Name</label>
+                        <label class="text-xs font-bold text-slate-500 uppercase ml-1">
+                            Last Name
+                        </label>
+
                         <input id="lastName" type="text" required
                                class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200
                                       focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition">
+                    
+                        <p id="lastNameError" class="text-sm text-red-500 mt-1 hidden"></p>              
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">Email Address</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">
+                        Email Address
+                    </label>
+
                     <input id="email" type="email" required
                            class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200
                                   focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition">
+                    <p id="emailError" class="text-sm text-red-500 mt-1 hidden"></p>              
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">Password</label>
+                    <label class="text-xs font-bold text-slate-500 uppercase ml-1">
+                        Password
+                    </label>
+
                     <input id="password" type="password" minlength="8" required
                            class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200
                                   focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500 outline-none transition">
+                    <p id="passwordError" class="text-sm text-red-500 mt-1 hidden"></p>
                     <p class="text-xs text-slate-400 ml-1 mt-1">
                         Must be at least 8 characters
                     </p>
@@ -121,6 +139,60 @@
         </div>
     </div>
 </main>
+
+<script>
+document.getElementById("registerForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    let valid = true;
+
+    const firstName = document.getElementById("firstName");
+    const lastName = document.getElementById("lastName");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+
+    const firstNameError = document.getElementById("firstNameError");
+    const lastNameError = document.getElementById("lastNameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+
+    // Reset errors
+    [firstNameError, lastNameError, emailError, passwordError].forEach(el => {
+        el.classList.add("hidden");
+        el.textContent = "";
+    });
+
+    if (firstName.value.trim() === "") {
+        firstNameError.textContent = "First name is required";
+        firstNameError.classList.remove("hidden");
+        valid = false;
+    }
+
+    if (lastName.value.trim() === "") {
+        lastNameError.textContent = "Last name is required";
+        lastNameError.classList.remove("hidden");
+        valid = false;
+    }
+
+    if (!/^\S+@\S+\.\S+$/.test(email.value)) {
+        emailError.textContent = "Enter a valid email address";
+        emailError.classList.remove("hidden");
+        valid = false;
+    }
+
+    if (password.value.length < 8) {
+        passwordError.textContent = "Password must be at least 8 characters";
+        passwordError.classList.remove("hidden");
+        valid = false;
+    }
+
+    if (valid) {
+        alert("Registration data is valid (backend coming next)");
+        // Later: submit to PHP
+    }
+});
+</script>
+
 
 </body>
 </html>
