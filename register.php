@@ -2,21 +2,33 @@
 require "config/db.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $firstName = trim($_POST["firstName"]);
-    $lastName = trim($_POST["lastName"]);
-    $email = trim($_POST["email"]);
-    $password = $_POST["password"];
 
+    $firstName = trim($_POST["firstName"]);
+    $lastName  = trim($_POST["lastName"]);
+    $email     = trim($_POST["email"]);
+    $password  = $_POST["password"];
+
+    // Check duplicate email
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->execute([$email]);
+
+    if ($stmt->rowCount() > 0) {
+        echo "<script>alert('Email already registered');</script>";
+        exit;
+    }
+
+    // Hash password
     $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
+    // Insert user
     $stmt = $pdo->prepare(
-        "INSERT INTO users (first_name, last_name, email, password)
-         VALUES (?, ?, ?, ?)"
+        "INSERT INTO users (first_name, last_name, email, password, role)
+         VALUES (?, ?, ?, ?, 'member')"
     );
 
     $stmt->execute([$firstName, $lastName, $email, $hashedPassword]);
 
-    header("Location: login.html");
+    header("Location: login.php");
     exit;
 }
 ?>
@@ -51,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <nav class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
     
     <!-- Logo -->
-    <a href="index.html">
+    <a href="index.php">
         <img src="assets/ecotrack-logo.png"
              alt="EcoTrack Logo"
              class="h-20 w-auto object-contain">
@@ -59,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <!-- Right-side navigation -->
     <div class="flex gap-3">
-        <a href="index.html"
+        <a href="index.php"
            class="px-5 py-2 rounded-full font-semibold text-emerald-700 hover:bg-emerald-50 transition">
             Home
         </a>
 
-        <a href="login.html"
+        <a href="login.php"
            class="bg-white/60 border border-emerald-100 px-5 py-2 rounded-full font-semibold text-emerald-700 hover:bg-emerald-50 transition">
             Login
         </a>
@@ -152,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     </p>
                     <p class="text-sm text-slate-500">
                         Already have an account?
-                        <a href="login.html" class="text-emerald-600 font-semibold hover:underline">
+                        <a href="login.php" class="text-emerald-600 font-semibold hover:underline">
                             Sign in
                         </a>
                     </p>
