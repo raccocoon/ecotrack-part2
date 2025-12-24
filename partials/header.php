@@ -1,4 +1,5 @@
 <?php
+define("BASE_URL", "/ecotrack-part2/");
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -31,7 +32,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 <!-- NAV -->
 <nav class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
     <a href="index.php">
-        <img src="assets/ecotrack-logo.png" class="h-20">
+        <img src="<?= BASE_URL ?>assets/images/ecotrack-logo.png" class="h-20">
     </a>
 
     <div class="flex gap-3">
@@ -48,10 +49,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
             Dashboard
         </a>
 
-        <a href="logout.php"
-           class="px-5 py-2 rounded-full font-semibold text-red-600 hover:bg-red-50 transition">
+        <a href="<?= BASE_URL ?>logout.php"
+            class="px-5 py-2 rounded-full font-semibold text-red-600 hover:bg-red-50 transition">
             Logout
         </a>
+
 
     <?php else: ?>
 
