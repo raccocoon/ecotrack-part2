@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } elseif (!password_verify($password, $user["password"])) {
             // Email exists but password wrong
-            $error = "Invalid email or password";
+            $error = "Incorrect password";
 
         } else {
             // Successful login
