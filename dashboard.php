@@ -16,11 +16,12 @@ if ($_SESSION["user_role"] !== "member") {
     header("Location: admin/dashboard.php");
     exit;
 }
-include "partials/header.php";
 ?>
+<?php include "partials/header.php"; ?>
+<?php include "partials/sidebar.php"; ?>
 
 <!-- MAIN -->
-<main class="max-w-7xl mx-auto px-8 py-10">
+<main class="ml-64 px-10 py-8">
 
     <h1 class="text-4xl font-extrabold text-slate-900 mb-2">
         Your Dashboard
@@ -80,5 +81,4 @@ include "partials/header.php";
 
 </main>
 
-</body>
-</html>
+<?php include "partials/footer.php"; ?>
