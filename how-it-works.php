@@ -27,9 +27,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
 <body class="bg-gradient-mesh min-h-screen">
 
 <!-- NAV -->
-<nav class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+<nav class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
     <a href="index.php">
-        <img src="assets/images/ecotrack-logo.png" class="h-16" alt="EcoTrack">
+        <img src="assets/images/ecotrack-logo.png" class="h-20" alt="EcoTrack Logo">
     </a>
 
     <a href="index.php"
