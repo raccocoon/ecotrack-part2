@@ -1,1 +1,33 @@
 /config/db.php
+/config/db.local.php
+
+# Environment
+.env
+.env.*
+
+# Dependencies & vendors
+vendor/
+node_modules/
+.vscode/
+.idea/
+
+# Logs & temp files
+*.log
+logs/
+tmp/
+temp/
+cache/
+*.tmp
+*.swp
+*.swo
+
+# Databases
+*.sqlite
+*.sqlite3
+*.db
+database/*.db
+database/*.sqlite*
+
+# OS cruft
+.DS_Store
+Thumbs.db

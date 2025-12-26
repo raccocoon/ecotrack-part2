@@ -10,6 +10,52 @@ if (isset($_SESSION["user_id"])) {
     }
     exit;
 }
+
+require "config/db.php";
+
+$error = "";
+$firstName = "";
+$lastName  = "";
+$email     = "";
+
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+    $firstName = trim($_POST["firstName"] ?? "");
+    $lastName  = trim($_POST["lastName"] ?? "");
+    $email     = trim($_POST["email"] ?? "");
+    $password  = $_POST["password"] ?? "";
+
+    if ($firstName === "" || $lastName === "" || $email === "" || $password === "") {
+        $error = "All fields are required";
+
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $error = "Please enter a valid email address";
+
+    } elseif (strlen($password) < 8) {
+        $error = "Password must be at least 8 characters";
+
+    } else {
+        $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
+        $stmt->execute([$email]);
+
+        if ($stmt->rowCount() > 0) {
+            $error = "Email already registered. Please login instead.";
+
+        } else {
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt = $pdo->prepare(
+                "INSERT INTO users (first_name, last_name, email, password, role)
+                 VALUES (?, ?, ?, ?, 'member')"
+            );
+
+            $stmt->execute([$firstName, $lastName, $email, $hashedPassword]);
+
+            header("Location: login.php");
+            exit;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,17 +151,25 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
     </div>
 
     <!-- REGISTER FORM -->
-    <form method="POST" action="register.php" class="space-y-5">
+    <form method="POST" action="index.php" class="space-y-5" novalidate>
+
+    <?php if ($error): ?>
+        <p class="mb-4 text-red-600 text-sm text-center">
+            <?= htmlspecialchars($error) ?>
+        </p>
+    <?php endif; ?>
 
         <div class="grid grid-cols-2 gap-4">
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase">First Name</label>
-                <input name="firstName" required
+                <input name="firstName" type="text" required
+                       value="<?= htmlspecialchars($firstName) ?>"
                        class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus:ring-emerald-500">
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase">Last Name</label>
-                <input name="lastName" required
+                <input name="lastName" type="text" required
+                       value="<?= htmlspecialchars($lastName) ?>"
                        class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
             </div>
         </div>
@@ -123,6 +177,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
         <div>
             <label class="text-xs font-bold text-slate-500 uppercase">Email Address</label>
             <input type="email" name="email" required
+                   value="<?= htmlspecialchars($email) ?>"
                    class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200">
         </div>
 

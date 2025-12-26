@@ -13,7 +13,8 @@ if (session_status() === PHP_SESSION_NONE) {
 <title>EcoTrack</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
 body { font-family: 'Plus Jakarta Sans', sans-serif; }
@@ -24,56 +25,19 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
         radial-gradient(at 0% 0%, rgba(16,185,129,0.1) 0, transparent 50%),
         radial-gradient(at 100% 100%, rgba(5,150,105,0.1) 0, transparent 50%);
 }
+
+/* Sidebar Styling */
+.sidebar-link:hover { background-color: #f0fdf4; color: #166534; transition: 0.3s; }
+.active-link { background-color: #dcfce7; color: #166534; border-right: 4px solid #22c55e; font-weight: bold; }
+
+/* Custom Font Class for Tagline */
+.tagline-font { font-family: 'Caveat', cursive; }
+
+/* Page Transitions */
+.page-section { display: none; animation: fadeIn 0.4s; }
+.page-section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 </head>
 
-<body class="bg-gradient-mesh min-h-screen">
-
-<!-- NAV -->
-<nav class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
-    <a href="index.php">
-        <img src="<?= BASE_URL ?>assets/images/ecotrack-logo.png" class="h-20">
-    </a>
-
-    <div class="flex gap-3">
-
-    <a href="index.php"
-       class="px-5 py-2 rounded-full font-semibold text-emerald-700 hover:bg-emerald-50 transition">
-        Home
-    </a>
-
-    <?php if (isset($_SESSION["user_id"])): ?>
-
-        <a href="dashboard.php"
-           class="bg-white/60 border border-emerald-100 px-5 py-2 rounded-full font-semibold text-emerald-700 hover:bg-emerald-50 transition">
-            Dashboard
-        </a>
-
-        <a href="<?= BASE_URL ?>logout.php"
-            class="px-5 py-2 rounded-full font-semibold text-red-600 hover:bg-red-50 transition">
-            Logout
-        </a>
-
-
-    <?php else: ?>
-
-        <?php if (basename($_SERVER["PHP_SELF"]) === "login.php"): ?>
-
-            <a href="register.php"
-               class="bg-white/60 border border-emerald-100 px-5 py-2 rounded-full font-semibold text-emerald-700 hover:bg-emerald-50 transition">
-                Register
-            </a>
-
-        <?php else: ?>
-
-            <a href="login.php"
-               class="bg-white/60 border border-emerald-100 px-5 py-2 rounded-full font-semibold text-emerald-700 hover:bg-emerald-50 transition">
-                Login
-            </a>
-
-        <?php endif; ?>
-
-    <?php endif; ?>
-
-</div>
-</nav>
+<body class="bg-gray-50 font-sans text-gray-800">

@@ -135,7 +135,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; }
         </p>
 
         <div class="flex flex-col sm:flex-row justify-center gap-4">
-            <a href="index.php"
+            <a href="register.php"
                class="px-8 py-4 rounded-xl bg-emerald-600 text-white font-extrabold hover:bg-emerald-700 transition">
                 Get Started
             </a>
